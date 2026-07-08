@@ -1,0 +1,57 @@
+# 먼저 읽기
+
+`index.html`을 더블클릭해서 직접 열면 실행되지 않습니다.
+
+아래 순서로 실행하세요.
+
+```bash
+npm install
+npm run dev
+```
+
+그 다음 터미널에 표시되는 `http://localhost:5173` 같은 주소를 브라우저에서 여세요.
+
+---
+
+# PromptLens
+
+PromptLens는 개인용·개발자용 BYOK(Bring Your Own Key) 이미지 분석 프롬프트 생성기입니다.
+
+사용자가 OpenAI 또는 Claude 중 하나를 선택하고 자신의 API 키를 입력하면, 브라우저에서 이미지를 분석 API로 직접 전송해 정리용 재생성 프롬프트를 생성합니다.
+
+## 핵심 기능
+
+- OpenAI / Claude 중 하나 선택
+- API 키 1개 입력
+- 기본값: 로컬 저장
+- 저장 안 함 / 세션 저장 / 로컬 저장 지원
+- 저장된 API 키 삭제
+- 이미지 업로드 및 미리보기
+- 브라우저에서 이미지 리사이즈/압축
+- 이미지 분석 요약
+- 유지할 요소 / 줄일 요소
+- `detail_level` 추천
+- 한국어 프롬프트 / 영어 프롬프트 생성
+- 복사 버튼
+
+## 실행
+
+```bash
+npm install
+npm run dev
+```
+
+## 빌드
+
+```bash
+npm run build
+npm run preview
+```
+
+## 주의
+
+이 프로젝트는 개인용·개발자용 도구입니다.
+
+API 키는 선택한 저장 방식에 따라 브라우저의 localStorage 또는 sessionStorage에 저장됩니다. “저장하지 않음”을 선택하면 브라우저 저장소에 저장하지 않습니다.
+
+이미지 분석 시 업로드한 이미지는 선택한 API 제공자(OpenAI 또는 Claude)로 직접 전송됩니다.
