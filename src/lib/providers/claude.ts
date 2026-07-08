@@ -1,5 +1,9 @@
 import Anthropic from "@anthropic-ai/sdk";
-import type { DetailMode, PromptLensResult } from "../../types/analysis";
+import type {
+  DetailMode,
+  OutputTarget,
+  PromptLensResult,
+} from "../../types/analysis";
 import { CLAUDE_MODEL } from "../constants";
 import { splitDataUrl } from "../dataUrl";
 import { extractJsonObject, validatePromptLensResult } from "../json";
@@ -11,6 +15,7 @@ export async function analyzeWithClaude(params: {
   apiKey: string;
   imageDataUrl: string;
   detailMode: DetailMode;
+  outputTarget: OutputTarget;
 }): Promise<PromptLensResult> {
   const client = new Anthropic({
     apiKey: params.apiKey,
@@ -28,7 +33,7 @@ export async function analyzeWithClaude(params: {
 
   const message = await client.messages.create({
     model: CLAUDE_MODEL,
-    max_tokens: 2200,
+    max_tokens: 2600,
     messages: [
       {
         role: "user",
@@ -43,7 +48,10 @@ export async function analyzeWithClaude(params: {
           },
           {
             type: "text",
-            text: buildAnalysisInstruction(params.detailMode),
+            text: buildAnalysisInstruction(
+              params.detailMode,
+              params.outputTarget
+            ),
           },
         ],
       },

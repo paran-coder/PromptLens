@@ -33,6 +33,8 @@ export function validatePromptLensResult(value: unknown): PromptLensResult {
   const summary = getString(data, "summary");
   const promptKo = getString(data, "prompt_ko");
   const promptEn = getString(data, "prompt_en");
+  const negativePrompt = getString(data, "negative_prompt");
+  const targetNotes = getString(data, "target_notes");
 
   const preserve = getStringArray(data, "preserve");
   const reduce = getStringArray(data, "reduce");
@@ -46,6 +48,8 @@ export function validatePromptLensResult(value: unknown): PromptLensResult {
     recommended_detail_level: detailLevel,
     prompt_ko: promptKo,
     prompt_en: promptEn,
+    negative_prompt: negativePrompt,
+    target_notes: targetNotes,
   };
 }
 

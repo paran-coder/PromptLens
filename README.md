@@ -1,3 +1,15 @@
+# v0.1.4 패치 노트
+
+- 출력 대상 선택 추가: GPT / Midjourney / Nano Banana Pro / Generic
+- Negative Prompt 생성 추가
+- API 키 보기/숨김 토글 추가
+- 모든 API 키 삭제 버튼 추가
+- 분석 결과 TXT 다운로드 추가
+- API 오류 메시지 개선
+- SPA 배포 안정성을 위한 Vercel rewrite 추가
+
+---
+
 # v0.1.3 패치 노트
 
 - Vercel 빌드 오류 수정: OpenAI `input_image` 객체에 `detail: "auto"` 추가

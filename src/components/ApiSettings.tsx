@@ -1,3 +1,4 @@
+import { useState } from "react";
 import type { Provider, StorageMode } from "../types/analysis";
 
 type ApiSettingsProps = {
@@ -8,6 +9,7 @@ type ApiSettingsProps = {
   onApiKeyChange: (apiKey: string) => void;
   onStorageModeChange: (mode: StorageMode) => void;
   onClearKey: () => void;
+  onClearAllKeys: () => void;
 };
 
 export function ApiSettings({
@@ -18,7 +20,10 @@ export function ApiSettings({
   onApiKeyChange,
   onStorageModeChange,
   onClearKey,
+  onClearAllKeys,
 }: ApiSettingsProps) {
+  const [showApiKey, setShowApiKey] = useState(false);
+
   return (
     <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur">
       <div>
@@ -46,12 +51,19 @@ export function ApiSettings({
       </label>
       <div className="mt-2 flex gap-2">
         <input
-          type="password"
+          type={showApiKey ? "text" : "password"}
           value={apiKey}
           onChange={(event) => onApiKeyChange(event.target.value)}
           placeholder="API 키를 입력하세요"
           className="min-w-0 flex-1 rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition placeholder:text-slate-600 focus:border-cyan-300/60"
         />
+        <button
+          type="button"
+          onClick={() => setShowApiKey((value) => !value)}
+          className="rounded-2xl border border-white/10 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10"
+        >
+          {showApiKey ? "숨김" : "보기"}
+        </button>
         <button
           type="button"
           onClick={onClearKey}
@@ -73,6 +85,14 @@ export function ApiSettings({
         <option value="session">세션 저장</option>
         <option value="none">저장하지 않음</option>
       </select>
+
+      <button
+        type="button"
+        onClick={onClearAllKeys}
+        className="mt-4 w-full rounded-2xl border border-red-300/20 bg-red-300/10 px-4 py-3 text-sm font-semibold text-red-100 transition hover:bg-red-300/15"
+      >
+        모든 API 키 삭제
+      </button>
 
       <div className="mt-5 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-sm leading-6 text-amber-100">
         기본값은 로컬 저장입니다. API 키는 선택한 저장 방식에 따라 이 브라우저에만

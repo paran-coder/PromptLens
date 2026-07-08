@@ -1,12 +1,14 @@
-import type { DetailMode, ImageMeta } from "../types/analysis";
+import type { DetailMode, ImageMeta, OutputTarget } from "../types/analysis";
 import { formatBytes } from "../lib/dataUrl";
 
 type ImageUploaderProps = {
   imageDataUrl: string;
   imageMeta: ImageMeta | null;
   detailMode: DetailMode;
+  outputTarget: OutputTarget;
   isLoading: boolean;
   onDetailModeChange: (mode: DetailMode) => void;
+  onOutputTargetChange: (target: OutputTarget) => void;
   onFileSelected: (file: File) => void;
   onAnalyze: () => void;
 };
@@ -15,8 +17,10 @@ export function ImageUploader({
   imageDataUrl,
   imageMeta,
   detailMode,
+  outputTarget,
   isLoading,
   onDetailModeChange,
+  onOutputTargetChange,
   onFileSelected,
   onAnalyze,
 }: ImageUploaderProps) {
@@ -78,6 +82,20 @@ export function ImageUploader({
           <p>전송용: {formatBytes(imageMeta.outputBytes)}</p>
         </div>
       )}
+
+      <label className="mt-5 block text-sm font-medium text-slate-300">
+        출력 대상
+      </label>
+      <select
+        value={outputTarget}
+        onChange={(event) => onOutputTargetChange(event.target.value as OutputTarget)}
+        className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
+      >
+        <option value="gpt">GPT</option>
+        <option value="midjourney">Midjourney</option>
+        <option value="nano_banana_pro">Nano Banana Pro</option>
+        <option value="generic">Generic</option>
+      </select>
 
       <label className="mt-5 block text-sm font-medium text-slate-300">
         정리 강도

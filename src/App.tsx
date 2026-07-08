@@ -4,19 +4,22 @@ import { FeatureGrid } from "./components/FeatureGrid";
 import { ImageUploader } from "./components/ImageUploader";
 import { ResultPanel } from "./components/ResultPanel";
 import {
+  DEFAULT_OUTPUT_TARGET,
   DEFAULT_PROVIDER,
   DEFAULT_STORAGE_MODE,
   MAX_IMAGE_SIZE_MB,
   SUPPORTED_IMAGE_TYPES,
 } from "./lib/constants";
+import { getReadableErrorMessage } from "./lib/errors";
 import { resizeImageToDataUrl } from "./lib/resizeImage";
-import { clearApiKey, loadApiKey, saveApiKey } from "./lib/storage";
+import { clearAllApiKeys, clearApiKey, loadApiKey, saveApiKey } from "./lib/storage";
 import { analyzeWithClaude } from "./lib/providers/claude";
 import { analyzeWithOpenAI } from "./lib/providers/openai";
 import type {
   AppStatus,
   DetailMode,
   ImageMeta,
+  OutputTarget,
   PromptLensResult,
   Provider,
   StorageMode,
@@ -28,6 +31,8 @@ export default function App() {
   const [storageMode, setStorageMode] =
     useState<StorageMode>(DEFAULT_STORAGE_MODE);
   const [detailMode, setDetailMode] = useState<DetailMode>("auto");
+  const [outputTarget, setOutputTarget] =
+    useState<OutputTarget>(DEFAULT_OUTPUT_TARGET);
 
   const [imageDataUrl, setImageDataUrl] = useState("");
   const [imageMeta, setImageMeta] = useState<ImageMeta | null>(null);
@@ -98,27 +103,30 @@ export default function App() {
               apiKey: apiKey.trim(),
               imageDataUrl,
               detailMode,
+              outputTarget,
             })
           : await analyzeWithClaude({
               apiKey: apiKey.trim(),
               imageDataUrl,
               detailMode,
+              outputTarget,
             });
 
       setResult(analysis);
       setStatus("success");
     } catch (error) {
       setStatus("error");
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "이미지 분석 중 문제가 발생했습니다."
-      );
+      setErrorMessage(getReadableErrorMessage(error, provider));
     }
   }
 
   function handleClearKey() {
     clearApiKey(provider);
+    setApiKey("");
+  }
+
+  function handleClearAllKeys() {
+    clearAllApiKeys();
     setApiKey("");
   }
 
@@ -151,7 +159,7 @@ export default function App() {
 
             <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-300">
               이미지를 업로드하면 PromptLens가 구도, 조명, 색감, 노이즈를 분석해
-              원본의 핵심은 유지하고 과한 디테일은 줄이는 재생성 프롬프트를
+              GPT, Midjourney, Nano Banana Pro, Generic에 맞는 재생성 프롬프트를
               만들어드립니다.
             </p>
 
@@ -200,14 +208,17 @@ export default function App() {
             onApiKeyChange={setApiKey}
             onStorageModeChange={setStorageMode}
             onClearKey={handleClearKey}
+            onClearAllKeys={handleClearAllKeys}
           />
 
           <ImageUploader
             imageDataUrl={imageDataUrl}
             imageMeta={imageMeta}
             detailMode={detailMode}
+            outputTarget={outputTarget}
             isLoading={isLoading}
             onDetailModeChange={setDetailMode}
+            onOutputTargetChange={setOutputTarget}
             onFileSelected={handleFileSelected}
             onAnalyze={handleAnalyze}
           />
@@ -219,7 +230,7 @@ export default function App() {
           </div>
         )}
 
-        <ResultPanel result={result} />
+        <ResultPanel result={result} outputTarget={outputTarget} />
 
         <section className="rounded-3xl border border-white/10 bg-white/[0.05] p-6">
           <h2 className="text-2xl font-bold">보안 안내</h2>

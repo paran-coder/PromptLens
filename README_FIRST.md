@@ -1,3 +1,7 @@
+# PromptLens v0.1.4 실행 방법
+
+이 버전은 출력 대상 선택, Negative Prompt, TXT 다운로드, API 키 관리 개선을 포함합니다.
+
 # PromptLens v0.1.3 실행 방법
 
 이 버전은 Vercel 빌드 오류 두 가지를 수정했습니다.

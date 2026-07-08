@@ -1,19 +1,33 @@
-import type { PromptLensResult } from "../types/analysis";
+import type { OutputTarget, PromptLensResult } from "../types/analysis";
+import { downloadPromptResult } from "../lib/download";
 import { PromptCard } from "./PromptCard";
 
 type ResultPanelProps = {
   result: PromptLensResult | null;
+  outputTarget: OutputTarget;
 };
 
-export function ResultPanel({ result }: ResultPanelProps) {
+export function ResultPanel({ result, outputTarget }: ResultPanelProps) {
   return (
     <section
       id="result"
       className="rounded-3xl border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 backdrop-blur"
     >
-      <div>
-        <p className="text-sm font-medium text-cyan-200">Step 3</p>
-        <h2 className="mt-1 text-2xl font-bold">분석 결과</h2>
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <div>
+          <p className="text-sm font-medium text-cyan-200">Step 3</p>
+          <h2 className="mt-1 text-2xl font-bold">분석 결과</h2>
+        </div>
+
+        {result && (
+          <button
+            type="button"
+            onClick={() => downloadPromptResult(result, outputTarget)}
+            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/20"
+          >
+            TXT 다운로드
+          </button>
+        )}
       </div>
 
       {!result ? (
@@ -52,11 +66,16 @@ export function ResultPanel({ result }: ResultPanelProps) {
             <div className="mt-5 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 text-sm text-cyan-100">
               추천 detail_level: {result.recommended_detail_level}
             </div>
+
+            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-6 text-slate-300">
+              {result.target_notes}
+            </div>
           </div>
 
           <div className="grid gap-6">
             <PromptCard title="한국어 프롬프트" text={result.prompt_ko} />
             <PromptCard title="English Prompt" text={result.prompt_en} />
+            <PromptCard title="Negative Prompt" text={result.negative_prompt} />
           </div>
         </div>
       )}

@@ -4,8 +4,8 @@ const features = [
     body: "본인의 OpenAI 또는 Claude API 키를 사용합니다. 서버 없이 브라우저에서 직접 호출합니다.",
   },
   {
-    title: "Image-aware",
-    body: "이미지의 구도, 조명, 색감, 배경, 노이즈를 분석해 프롬프트로 정리합니다.",
+    title: "Target-aware",
+    body: "GPT, Midjourney, Nano Banana Pro, Generic 중 선택한 대상에 맞춰 프롬프트 스타일을 바꿉니다.",
   },
   {
     title: "Cleanup-focused",
