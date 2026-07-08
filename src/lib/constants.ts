@@ -6,7 +6,7 @@ import type {
   StorageMode,
 } from "../types/analysis";
 
-export const APP_VERSION = "v0.2.1";
+export const APP_VERSION = "v0.2.2";
 
 export const DEFAULT_PROVIDER: Provider = "openai";
 
