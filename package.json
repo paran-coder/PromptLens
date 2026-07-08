@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@anthropic-ai/sdk": "latest",
-    "@vitejs/plugin-react": "latest",
     "openai": "latest",
     "react": "latest",
     "react-dom": "latest"
@@ -19,6 +18,9 @@
     "@tailwindcss/vite": "latest",
     "tailwindcss": "latest",
     "typescript": "latest",
-    "vite": "latest"
+    "vite": "latest",
+    "@vitejs/plugin-react": "latest",
+    "@types/react": "latest",
+    "@types/react-dom": "latest"
   }
 }

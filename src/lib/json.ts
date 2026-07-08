@@ -29,39 +29,50 @@ export function validatePromptLensResult(value: unknown): PromptLensResult {
 
   const data = value as Record<string, unknown>;
 
-  assertString(data, "image_type");
-  assertString(data, "summary");
-  assertString(data, "prompt_ko");
-  assertString(data, "prompt_en");
+  const imageType = getString(data, "image_type");
+  const summary = getString(data, "summary");
+  const promptKo = getString(data, "prompt_ko");
+  const promptEn = getString(data, "prompt_en");
 
-  if (!Array.isArray(data.preserve)) {
-    throw new Error("preserve 값은 배열이어야 합니다.");
-  }
-
-  if (!Array.isArray(data.reduce)) {
-    throw new Error("reduce 값은 배열이어야 합니다.");
-  }
-
-  if (![1, 2, 3].includes(data.recommended_detail_level as number)) {
-    throw new Error("recommended_detail_level 값은 1, 2, 3 중 하나여야 합니다.");
-  }
+  const preserve = getStringArray(data, "preserve");
+  const reduce = getStringArray(data, "reduce");
+  const detailLevel = getDetailLevel(data.recommended_detail_level);
 
   return {
-    image_type: data.image_type,
-    summary: data.summary,
-    preserve: data.preserve.map(String),
-    reduce: data.reduce.map(String),
-    recommended_detail_level: data.recommended_detail_level as 1 | 2 | 3,
-    prompt_ko: data.prompt_ko,
-    prompt_en: data.prompt_en,
+    image_type: imageType,
+    summary,
+    preserve,
+    reduce,
+    recommended_detail_level: detailLevel,
+    prompt_ko: promptKo,
+    prompt_en: promptEn,
   };
 }
 
-function assertString(
-  data: Record<string, unknown>,
-  key: string
-): asserts data is Record<string, string> {
-  if (typeof data[key] !== "string") {
+function getString(data: Record<string, unknown>, key: string): string {
+  const value = data[key];
+
+  if (typeof value !== "string") {
     throw new Error(`${key} 값은 문자열이어야 합니다.`);
   }
+
+  return value;
+}
+
+function getStringArray(data: Record<string, unknown>, key: string): string[] {
+  const value = data[key];
+
+  if (!Array.isArray(value)) {
+    throw new Error(`${key} 값은 배열이어야 합니다.`);
+  }
+
+  return value.map(String);
+}
+
+function getDetailLevel(value: unknown): 1 | 2 | 3 {
+  if (value === 1 || value === 2 || value === 3) {
+    return value;
+  }
+
+  throw new Error("recommended_detail_level 값은 1, 2, 3 중 하나여야 합니다.");
 }

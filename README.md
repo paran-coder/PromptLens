@@ -1,3 +1,11 @@
+# v0.1.2 패치 노트
+
+- Vercel 빌드 실패 가능성이 높은 TypeScript 검증 로직을 수정했습니다.
+- `@types/react`, `@types/react-dom`을 devDependencies에 추가했습니다.
+- Vercel 배포 설정을 명시하는 `vercel.json`을 추가했습니다.
+
+---
+
 # 먼저 읽기
 
 `index.html`을 더블클릭해서 직접 열면 실행되지 않습니다.
