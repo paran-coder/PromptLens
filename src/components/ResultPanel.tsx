@@ -67,15 +67,22 @@ export function ResultPanel({ result, outputTarget }: ResultPanelProps) {
               추천 detail_level: {result.recommended_detail_level}
             </div>
 
-            <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm leading-6 text-slate-300">
-              {result.target_notes}
+            <div className="mt-4 rounded-2xl border border-violet-300/20 bg-violet-300/10 px-4 py-4 text-sm leading-6 text-violet-100">
+              <p className="mb-2 font-semibold text-violet-50">Target Notes</p>
+              <p>{result.target_notes || "선택한 출력 대상에 맞는 사용 팁이 생성되지 않았습니다."}</p>
             </div>
           </div>
 
           <div className="grid gap-6">
             <PromptCard title="한국어 프롬프트" text={result.prompt_ko} />
             <PromptCard title="English Prompt" text={result.prompt_en} />
-            <PromptCard title="Negative Prompt" text={result.negative_prompt} />
+            <PromptCard
+              title="Negative Prompt"
+              text={
+                result.negative_prompt ||
+                "speckled noise, artifacts, excessive texture, cluttered background, over-sharpening, unstable rendering"
+              }
+            />
           </div>
         </div>
       )}

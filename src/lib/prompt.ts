@@ -19,6 +19,8 @@ Important:
 - The Korean prompt should be natural and directly usable.
 - The English prompt should be production-ready and adapted to the selected output target.
 - Always provide a useful negative_prompt focused on what should be avoided.
+- Always provide target_notes explaining how to use the generated prompt for the selected output target.
+- The negative_prompt and target_notes fields must never be empty.
 
 Detail level guide:
 - detail_level 1 = Clean: strongest simplification, cleaner surfaces, less visual density.

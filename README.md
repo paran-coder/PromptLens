@@ -1,3 +1,21 @@
+# v0.1.6 패치 노트
+
+- `.gitignore` 추가
+- GitHub 업로드 안내 문서 추가
+- 압축파일에서 `node_modules`, `dist`, `.vercel`, `.git` 제외
+- 앱 상단 버전 표시를 `v0.1.6`으로 갱신
+
+---
+
+# v0.1.5 패치 노트
+
+- 상단 헤더에 현재 버전 표시 추가
+- `Target Notes` 라벨을 명확하게 표시
+- `Negative Prompt` 카드가 항상 보이도록 fallback 표시 추가
+- 모델 지시에 `negative_prompt`와 `target_notes` 필수 생성 조건 강화
+
+---
+
 # v0.1.4 패치 노트
 
 - 출력 대상 선택 추가: GPT / Midjourney / Nano Banana Pro / Generic

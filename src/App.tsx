@@ -4,6 +4,7 @@ import { FeatureGrid } from "./components/FeatureGrid";
 import { ImageUploader } from "./components/ImageUploader";
 import { ResultPanel } from "./components/ResultPanel";
 import {
+  APP_VERSION,
   DEFAULT_OUTPUT_TARGET,
   DEFAULT_PROVIDER,
   DEFAULT_STORAGE_MODE,
@@ -143,7 +144,7 @@ export default function App() {
             PromptLens
           </a>
           <div className="hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-300 md:block">
-            BYOK · Browser-based · No server
+            {APP_VERSION} · BYOK · Browser-based · No server
           </div>
         </header>
 
