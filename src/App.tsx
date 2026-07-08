@@ -13,7 +13,12 @@ import {
 } from "./lib/constants";
 import { getReadableErrorMessage } from "./lib/errors";
 import { resizeImageToDataUrl } from "./lib/resizeImage";
-import { clearAllApiKeys, clearApiKey, loadApiKey, saveApiKey } from "./lib/storage";
+import {
+  clearAllApiKeys,
+  clearApiKey,
+  loadApiKey,
+  saveApiKey,
+} from "./lib/storage";
 import { analyzeWithClaude } from "./lib/providers/claude";
 import { analyzeWithOpenAI } from "./lib/providers/openai";
 import type {
@@ -40,6 +45,8 @@ export default function App() {
   const [result, setResult] = useState<PromptLensResult | null>(null);
   const [status, setStatus] = useState<AppStatus>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [errorDetails, setErrorDetails] = useState("");
+  const [showErrorDetails, setShowErrorDetails] = useState(false);
 
   const isLoading = status === "analyzing";
 
@@ -50,7 +57,9 @@ export default function App() {
   async function handleFileSelected(file: File) {
     try {
       setErrorMessage("");
+      setErrorDetails("");
       setResult(null);
+      setShowErrorDetails(false);
 
       if (!SUPPORTED_IMAGE_TYPES.includes(file.type as typeof SUPPORTED_IMAGE_TYPES[number])) {
         setStatus("error");
@@ -75,12 +84,25 @@ export default function App() {
           ? error.message
           : "이미지를 처리하는 중 문제가 발생했습니다."
       );
+      setErrorDetails(formatErrorDetails(error));
     }
+  }
+
+  function handleClearImage() {
+    setImageDataUrl("");
+    setImageMeta(null);
+    setResult(null);
+    setErrorMessage("");
+    setErrorDetails("");
+    setShowErrorDetails(false);
+    setStatus("idle");
   }
 
   async function handleAnalyze() {
     try {
       setErrorMessage("");
+      setErrorDetails("");
+      setShowErrorDetails(false);
 
       if (!apiKey.trim()) {
         setStatus("error");
@@ -118,6 +140,7 @@ export default function App() {
     } catch (error) {
       setStatus("error");
       setErrorMessage(getReadableErrorMessage(error, provider));
+      setErrorDetails(formatErrorDetails(error));
     }
   }
 
@@ -221,17 +244,52 @@ export default function App() {
             onDetailModeChange={setDetailMode}
             onOutputTargetChange={setOutputTarget}
             onFileSelected={handleFileSelected}
+            onClearImage={handleClearImage}
             onAnalyze={handleAnalyze}
           />
         </section>
 
         {errorMessage && (
           <div className="rounded-3xl border border-red-400/20 bg-red-400/10 p-5 text-sm leading-6 text-red-100">
-            {errorMessage}
+            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+              <p>{errorMessage}</p>
+              <div className="flex shrink-0 flex-wrap gap-2">
+                {imageDataUrl && apiKey && (
+                  <button
+                    type="button"
+                    onClick={handleAnalyze}
+                    disabled={isLoading}
+                    className="rounded-xl border border-red-200/20 bg-red-100/10 px-3 py-2 text-xs font-semibold text-red-50 transition hover:bg-red-100/20 disabled:opacity-60"
+                  >
+                    다시 시도
+                  </button>
+                )}
+                {errorDetails && (
+                  <button
+                    type="button"
+                    onClick={() => setShowErrorDetails((value) => !value)}
+                    className="rounded-xl border border-red-200/20 bg-red-100/10 px-3 py-2 text-xs font-semibold text-red-50 transition hover:bg-red-100/20"
+                  >
+                    {showErrorDetails ? "상세 닫기" : "상세 보기"}
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {showErrorDetails && errorDetails && (
+              <pre className="mt-4 max-h-64 overflow-auto rounded-2xl bg-black/30 p-4 text-xs leading-6 text-red-50">
+                {errorDetails}
+              </pre>
+            )}
           </div>
         )}
 
-        <ResultPanel result={result} outputTarget={outputTarget} />
+        <ResultPanel
+          result={result}
+          outputTarget={outputTarget}
+          isLoading={isLoading}
+          onRetry={handleAnalyze}
+        />
 
         <section className="rounded-3xl border border-white/10 bg-white/[0.05] p-6">
           <h2 className="text-2xl font-bold">보안 안내</h2>
@@ -249,4 +307,16 @@ export default function App() {
       </div>
     </main>
   );
+}
+
+function formatErrorDetails(error: unknown) {
+  if (error instanceof Error) {
+    return error.stack || error.message;
+  }
+
+  try {
+    return JSON.stringify(error, null, 2);
+  } catch {
+    return String(error);
+  }
 }

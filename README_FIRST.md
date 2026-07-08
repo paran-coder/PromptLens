@@ -1,3 +1,7 @@
+# PromptLens v0.1.7 실행 방법
+
+이 버전은 테스트와 디버깅 편의성을 강화했습니다.
+
 # PromptLens v0.1.4 실행 방법
 
 이 버전은 출력 대상 선택, Negative Prompt, TXT 다운로드, API 키 관리 개선을 포함합니다.

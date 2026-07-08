@@ -1,13 +1,26 @@
+import { useState } from "react";
 import type { OutputTarget, PromptLensResult } from "../types/analysis";
-import { downloadPromptResult } from "../lib/download";
+import {
+  downloadPromptResult,
+  downloadPromptResultJson,
+} from "../lib/download";
 import { PromptCard } from "./PromptCard";
 
 type ResultPanelProps = {
   result: PromptLensResult | null;
   outputTarget: OutputTarget;
+  isLoading: boolean;
+  onRetry: () => void;
 };
 
-export function ResultPanel({ result, outputTarget }: ResultPanelProps) {
+export function ResultPanel({
+  result,
+  outputTarget,
+  isLoading,
+  onRetry,
+}: ResultPanelProps) {
+  const [showJson, setShowJson] = useState(false);
+
   return (
     <section
       id="result"
@@ -20,13 +33,37 @@ export function ResultPanel({ result, outputTarget }: ResultPanelProps) {
         </div>
 
         {result && (
-          <button
-            type="button"
-            onClick={() => downloadPromptResult(result, outputTarget)}
-            className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/20"
-          >
-            TXT 다운로드
-          </button>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={onRetry}
+              disabled={isLoading}
+              className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isLoading ? "재분석 중..." : "다시 분석"}
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowJson((value) => !value)}
+              className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/20"
+            >
+              {showJson ? "JSON 닫기" : "Raw JSON 보기"}
+            </button>
+            <button
+              type="button"
+              onClick={() => downloadPromptResult(result, outputTarget)}
+              className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/20"
+            >
+              TXT 다운로드
+            </button>
+            <button
+              type="button"
+              onClick={() => downloadPromptResultJson(result, outputTarget)}
+              className="rounded-2xl border border-white/10 bg-white/10 px-4 py-3 text-sm font-semibold text-slate-200 transition hover:bg-white/20"
+            >
+              JSON 다운로드
+            </button>
+          </div>
         )}
       </div>
 
@@ -84,6 +121,24 @@ export function ResultPanel({ result, outputTarget }: ResultPanelProps) {
               }
             />
           </div>
+
+          {showJson && (
+            <div className="lg:col-span-2 rounded-3xl border border-white/10 bg-slate-950/90 p-5">
+              <div className="mb-3 flex items-center justify-between gap-4">
+                <h3 className="font-semibold">Raw JSON</h3>
+                <button
+                  type="button"
+                  onClick={() => navigator.clipboard.writeText(JSON.stringify(result, null, 2))}
+                  className="rounded-xl bg-white/10 px-3 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/20"
+                >
+                  JSON 복사
+                </button>
+              </div>
+              <pre className="max-h-96 overflow-auto rounded-2xl bg-black/40 p-4 text-xs leading-6 text-slate-300">
+                {JSON.stringify(result, null, 2)}
+              </pre>
+            </div>
+          )}
         </div>
       )}
     </section>

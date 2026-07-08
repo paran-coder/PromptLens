@@ -10,6 +10,7 @@ type ImageUploaderProps = {
   onDetailModeChange: (mode: DetailMode) => void;
   onOutputTargetChange: (target: OutputTarget) => void;
   onFileSelected: (file: File) => void;
+  onClearImage: () => void;
   onAnalyze: () => void;
 };
 
@@ -22,6 +23,7 @@ export function ImageUploader({
   onDetailModeChange,
   onOutputTargetChange,
   onFileSelected,
+  onClearImage,
   onAnalyze,
 }: ImageUploaderProps) {
   function handleFiles(files: FileList | null) {
@@ -81,6 +83,16 @@ export function ImageUploader({
           <p>원본: {formatBytes(imageMeta.originalBytes)}</p>
           <p>전송용: {formatBytes(imageMeta.outputBytes)}</p>
         </div>
+      )}
+
+      {imageDataUrl && (
+        <button
+          type="button"
+          onClick={onClearImage}
+          className="mt-4 w-full rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-sm font-semibold text-slate-300 transition hover:bg-white/10"
+        >
+          이미지 초기화
+        </button>
       )}
 
       <label className="mt-5 block text-sm font-medium text-slate-300">

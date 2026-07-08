@@ -34,12 +34,41 @@ export function downloadPromptResult(
     "",
   ].join("\n");
 
-  const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+  downloadTextFile(
+    content,
+    `PromptLens_${formatOutputTarget(outputTarget)}_result.txt`,
+    "text/plain;charset=utf-8"
+  );
+}
+
+export function downloadPromptResultJson(
+  result: PromptLensResult,
+  outputTarget: OutputTarget
+) {
+  const content = JSON.stringify(
+    {
+      output_target: outputTarget,
+      exported_at: new Date().toISOString(),
+      result,
+    },
+    null,
+    2
+  );
+
+  downloadTextFile(
+    content,
+    `PromptLens_${formatOutputTarget(outputTarget)}_result.json`,
+    "application/json;charset=utf-8"
+  );
+}
+
+function downloadTextFile(content: string, filename: string, mimeType: string) {
+  const blob = new Blob([content], { type: mimeType });
   const url = URL.createObjectURL(blob);
 
   const anchor = document.createElement("a");
   anchor.href = url;
-  anchor.download = `PromptLens_${formatOutputTarget(outputTarget)}_result.txt`;
+  anchor.download = filename;
   anchor.click();
 
   URL.revokeObjectURL(url);
