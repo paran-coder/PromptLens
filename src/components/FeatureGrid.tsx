@@ -1,15 +1,15 @@
 const features = [
   {
-    title: "BYOK",
-    body: "본인의 OpenAI 또는 Claude API 키를 사용합니다. 서버 없이 브라우저에서 직접 호출합니다.",
+    title: "Prompt quality",
+    body: "프롬프트 길이와 정리 목적을 선택해 더 정확한 재생성 프롬프트를 만듭니다.",
   },
   {
     title: "Target-aware",
-    body: "GPT, Midjourney, Nano Banana Pro, Generic 중 선택한 대상에 맞춰 프롬프트 스타일을 바꿉니다.",
+    body: "GPT, Midjourney, Nano Banana Pro, Generic 중 선택한 대상에 맞춰 문법과 톤을 조정합니다.",
   },
   {
     title: "Cleanup-focused",
-    body: "원본의 핵심은 유지하고 점 노이즈, 과한 질감, 산만한 디테일을 줄이는 방향에 집중합니다.",
+    body: "원본의 핵심은 유지하고 노이즈, 과한 질감, 산만한 배경, 불안정한 디테일을 줄입니다.",
   },
 ];
 

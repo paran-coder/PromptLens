@@ -1,7 +1,9 @@
 import OpenAI from "openai";
 import type {
+  CleanupGoal,
   DetailMode,
   OutputTarget,
+  PromptLength,
   PromptLensResult,
 } from "../../types/analysis";
 import { OPENAI_MODEL } from "../constants";
@@ -13,6 +15,8 @@ export async function analyzeWithOpenAI(params: {
   imageDataUrl: string;
   detailMode: DetailMode;
   outputTarget: OutputTarget;
+  promptLength: PromptLength;
+  cleanupGoal: CleanupGoal;
 }): Promise<PromptLensResult> {
   const client = new OpenAI({
     apiKey: params.apiKey,
@@ -27,10 +31,12 @@ export async function analyzeWithOpenAI(params: {
         content: [
           {
             type: "input_text",
-            text: buildAnalysisInstruction(
-              params.detailMode,
-              params.outputTarget
-            ),
+            text: buildAnalysisInstruction({
+              detailMode: params.detailMode,
+              outputTarget: params.outputTarget,
+              promptLength: params.promptLength,
+              cleanupGoal: params.cleanupGoal,
+            }),
           },
           {
             type: "input_image",

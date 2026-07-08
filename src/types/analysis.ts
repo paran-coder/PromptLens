@@ -6,6 +6,15 @@ export type DetailMode = "auto" | "clean" | "balanced" | "rich";
 
 export type OutputTarget = "gpt" | "midjourney" | "nano_banana_pro" | "generic";
 
+export type PromptLength = "short" | "standard" | "detailed";
+
+export type CleanupGoal =
+  | "auto"
+  | "noise"
+  | "background"
+  | "texture"
+  | "overall";
+
 export type AppStatus = "idle" | "ready" | "analyzing" | "success" | "error";
 
 export type ImageMeta = {

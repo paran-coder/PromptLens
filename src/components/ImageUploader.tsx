@@ -1,4 +1,10 @@
-import type { DetailMode, ImageMeta, OutputTarget } from "../types/analysis";
+import type {
+  CleanupGoal,
+  DetailMode,
+  ImageMeta,
+  OutputTarget,
+  PromptLength,
+} from "../types/analysis";
 import { formatBytes } from "../lib/dataUrl";
 
 type ImageUploaderProps = {
@@ -6,9 +12,13 @@ type ImageUploaderProps = {
   imageMeta: ImageMeta | null;
   detailMode: DetailMode;
   outputTarget: OutputTarget;
+  promptLength: PromptLength;
+  cleanupGoal: CleanupGoal;
   isLoading: boolean;
   onDetailModeChange: (mode: DetailMode) => void;
   onOutputTargetChange: (target: OutputTarget) => void;
+  onPromptLengthChange: (length: PromptLength) => void;
+  onCleanupGoalChange: (goal: CleanupGoal) => void;
   onFileSelected: (file: File) => void;
   onClearImage: () => void;
   onAnalyze: () => void;
@@ -19,9 +29,13 @@ export function ImageUploader({
   imageMeta,
   detailMode,
   outputTarget,
+  promptLength,
+  cleanupGoal,
   isLoading,
   onDetailModeChange,
   onOutputTargetChange,
+  onPromptLengthChange,
+  onCleanupGoalChange,
   onFileSelected,
   onClearImage,
   onAnalyze,
@@ -95,33 +109,77 @@ export function ImageUploader({
         </button>
       )}
 
-      <label className="mt-5 block text-sm font-medium text-slate-300">
-        출력 대상
-      </label>
-      <select
-        value={outputTarget}
-        onChange={(event) => onOutputTargetChange(event.target.value as OutputTarget)}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
-      >
-        <option value="gpt">GPT</option>
-        <option value="midjourney">Midjourney</option>
-        <option value="nano_banana_pro">Nano Banana Pro</option>
-        <option value="generic">Generic</option>
-      </select>
+      <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <div>
+          <label className="block text-sm font-medium text-slate-300">
+            출력 대상
+          </label>
+          <select
+            value={outputTarget}
+            onChange={(event) => onOutputTargetChange(event.target.value as OutputTarget)}
+            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
+          >
+            <option value="gpt">GPT</option>
+            <option value="midjourney">Midjourney</option>
+            <option value="nano_banana_pro">Nano Banana Pro</option>
+            <option value="generic">Generic</option>
+          </select>
+        </div>
 
-      <label className="mt-5 block text-sm font-medium text-slate-300">
-        정리 강도
-      </label>
-      <select
-        value={detailMode}
-        onChange={(event) => onDetailModeChange(event.target.value as DetailMode)}
-        className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
-      >
-        <option value="auto">자동 추천</option>
-        <option value="clean">Clean - 강하게 단순화</option>
-        <option value="balanced">Balanced - 자연스럽게 정리</option>
-        <option value="rich">Rich - 디테일 유지</option>
-      </select>
+        <div>
+          <label className="block text-sm font-medium text-slate-300">
+            프롬프트 길이
+          </label>
+          <select
+            value={promptLength}
+            onChange={(event) => onPromptLengthChange(event.target.value as PromptLength)}
+            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
+          >
+            <option value="short">짧게</option>
+            <option value="standard">표준</option>
+            <option value="detailed">자세히</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 md:grid-cols-2">
+        <div>
+          <label className="block text-sm font-medium text-slate-300">
+            정리 목적
+          </label>
+          <select
+            value={cleanupGoal}
+            onChange={(event) => onCleanupGoalChange(event.target.value as CleanupGoal)}
+            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
+          >
+            <option value="auto">자동 판단</option>
+            <option value="noise">노이즈 제거</option>
+            <option value="background">배경 정리</option>
+            <option value="texture">질감 완화</option>
+            <option value="overall">전체 정돈</option>
+          </select>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-slate-300">
+            정리 강도 / detail_level
+          </label>
+          <select
+            value={detailMode}
+            onChange={(event) => onDetailModeChange(event.target.value as DetailMode)}
+            className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
+          >
+            <option value="auto">자동 추천</option>
+            <option value="clean">Clean - detail_level 1 - 강하게 단순화</option>
+            <option value="balanced">Balanced - detail_level 2 - 자연스럽게 정리</option>
+            <option value="rich">Rich - detail_level 3 - 디테일 유지</option>
+          </select>
+        </div>
+      </div>
+
+      <div className="mt-4 rounded-2xl border border-white/10 bg-white/5 p-4 text-xs leading-6 text-slate-400">
+        detail_level 1은 강한 단순화, 2는 균형형 정리, 3은 디테일 보존 중심입니다.
+      </div>
 
       <button
         type="button"

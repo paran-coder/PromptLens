@@ -1,12 +1,22 @@
-import type { Provider, StorageMode, OutputTarget } from "../types/analysis";
+import type {
+  CleanupGoal,
+  OutputTarget,
+  PromptLength,
+  Provider,
+  StorageMode,
+} from "../types/analysis";
+
+export const APP_VERSION = "v0.2.1";
 
 export const DEFAULT_PROVIDER: Provider = "openai";
 
 export const DEFAULT_STORAGE_MODE: StorageMode = "local";
 
-export const APP_VERSION = "v0.1.7";
-
 export const DEFAULT_OUTPUT_TARGET: OutputTarget = "gpt";
+
+export const DEFAULT_PROMPT_LENGTH: PromptLength = "standard";
+
+export const DEFAULT_CLEANUP_GOAL: CleanupGoal = "auto";
 
 export const OPENAI_MODEL = "gpt-5.4-mini";
 
