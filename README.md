@@ -1,3 +1,11 @@
+# v0.1.3 패치 노트
+
+- Vercel 빌드 오류 수정: OpenAI `input_image` 객체에 `detail: "auto"` 추가
+- Vercel 빌드 오류 수정: CSS side-effect import 타입 인식을 위한 `src/vite-env.d.ts` 추가
+- package version을 `0.1.3`으로 갱신
+
+---
+
 # v0.1.2 패치 노트
 
 - Vercel 빌드 실패 가능성이 높은 TypeScript 검증 로직을 수정했습니다.

@@ -27,6 +27,7 @@ export async function analyzeWithOpenAI(params: {
           {
             type: "input_image",
             image_url: params.imageDataUrl,
+            detail: "auto",
           },
         ],
       },

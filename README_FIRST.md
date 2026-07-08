@@ -1,3 +1,10 @@
+# PromptLens v0.1.3 실행 방법
+
+이 버전은 Vercel 빌드 오류 두 가지를 수정했습니다.
+
+- OpenAI 이미지 입력에 `detail: "auto"` 추가
+- Vite CSS import 타입 인식을 위한 `src/vite-env.d.ts` 추가
+
 # PromptLens 실행 방법
 
 이 프로젝트는 `index.html`을 더블클릭해서 여는 방식으로 실행되지 않습니다.
