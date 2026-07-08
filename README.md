@@ -1,3 +1,18 @@
+# v0.2.3 패치 노트
+
+- 제품 설명을 `GPT Images cleanup prompt` 중심으로 수정
+- `출력 대상`을 `출력 프롬프트 형식`으로 변경
+- 옵션명을 더 정확하게 수정
+  - `GPT Images - 권장`
+  - `Nano Banana Pro - 참조 이미지용`
+  - `Midjourney-style - 실험적`
+  - `Generic - 범용`
+- Nano Banana Pro / Midjourney-style / Generic은 직접 실행 지원이 아니라 프롬프트 형식 변환 템플릿임을 UI에 명시
+- 내부 모델 지시문에도 같은 기준 반영
+- 앱 버전을 `v0.2.3`으로 갱신
+
+---
+
 # v0.2.2 패치 노트
 
 - v0.2.x 신규 옵션을 `프롬프트 품질 설정` 박스로 분리해 더 잘 보이도록 수정

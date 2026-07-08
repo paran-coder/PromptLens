@@ -1,3 +1,7 @@
+# PromptLens v0.2.3 실행 방법
+
+이 버전은 PromptLens의 핵심 목적을 GPT Images cleanup prompt 중심으로 명확히 정리했습니다.
+
 # PromptLens v0.2.2 실행 방법
 
 이 버전은 신규 옵션을 별도 `프롬프트 품질 설정` 박스로 분리했습니다.

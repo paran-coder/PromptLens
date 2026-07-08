@@ -113,24 +113,29 @@ export function ImageUploader({
         <div className="flex flex-col gap-1">
           <p className="text-sm font-semibold text-cyan-100">프롬프트 품질 설정</p>
           <p className="text-xs leading-5 text-slate-400">
-            v0.2.x에서 추가된 옵션입니다. 출력 대상, 길이, 정리 목적, detail_level을 여기서 조정합니다.
+            PromptLens의 기본 목적은 GPT Images용 cleanup prompt입니다. 다른 항목은 직접 실행 지원이 아니라, 해당 도구에 붙여넣기 좋게 문체를 바꾸는 프롬프트 형식 템플릿입니다.
           </p>
+        </div>
+
+        <div className="mt-4 rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4 text-xs leading-6 text-amber-100">
+          권장: GPT Images. Nano Banana Pro는 참조 이미지 기반 편집용, Midjourney-style은 재생성 실험용,
+          Generic은 범용 프롬프트로 사용하세요.
         </div>
 
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           <div>
             <label className="block text-sm font-medium text-slate-300">
-              출력 대상
+              출력 프롬프트 형식
             </label>
             <select
               value={outputTarget}
               onChange={(event) => onOutputTargetChange(event.target.value as OutputTarget)}
               className="mt-2 w-full rounded-2xl border border-white/10 bg-slate-950/80 px-4 py-3 text-white outline-none transition focus:border-cyan-300/60"
             >
-              <option value="gpt">GPT</option>
-              <option value="midjourney">Midjourney</option>
-              <option value="nano_banana_pro">Nano Banana Pro</option>
-              <option value="generic">Generic</option>
+              <option value="gpt">GPT Images - 권장</option>
+              <option value="midjourney">Midjourney-style - 실험적</option>
+              <option value="nano_banana_pro">Nano Banana Pro - 참조 이미지용</option>
+              <option value="generic">Generic - 범용</option>
             </select>
           </div>
 
@@ -207,13 +212,13 @@ export function ImageUploader({
 function formatOutputTarget(target: OutputTarget) {
   switch (target) {
     case "gpt":
-      return "GPT";
+      return "GPT Images - 권장";
     case "midjourney":
-      return "Midjourney";
+      return "Midjourney-style - 실험적";
     case "nano_banana_pro":
-      return "Nano Banana Pro";
+      return "Nano Banana Pro - 참조 이미지용";
     case "generic":
-      return "Generic";
+      return "Generic - 범용";
   }
 }
 

@@ -12,7 +12,7 @@ export function buildAnalysisInstruction(params: {
   cleanupGoal: CleanupGoal;
 }) {
   return `
-You are PromptLens, an image-to-cleanup-prompt analysis tool.
+You are PromptLens, an image-to-cleanup-prompt analysis tool. The core use case is GPT Images cleanup prompting; non-GPT targets are prompt-format templates, not direct generation support.
 
 Analyze the uploaded image and generate cleanup-focused image regeneration prompts.
 
@@ -41,13 +41,13 @@ ${buildCleanupGoalInstruction(params.cleanupGoal)}
 Prompt length:
 ${buildPromptLengthInstruction(params.promptLength, params.outputTarget)}
 
-Output target:
+Prompt output format:
 ${buildOutputTargetInstruction(params.outputTarget)}
 
 User selected detail mode: ${params.detailMode}
 User selected cleanup goal: ${params.cleanupGoal}
 User selected prompt length: ${params.promptLength}
-User selected output target: ${params.outputTarget}
+User selected prompt output format: ${params.outputTarget}
 
 Return only valid JSON. Do not wrap it in markdown.
 
@@ -152,7 +152,7 @@ function buildOutputTargetInstruction(outputTarget: OutputTarget) {
   switch (outputTarget) {
     case "gpt":
       return `
-GPT:
+GPT Images - recommended:
 - Use clear natural-language instructions.
 - Prefer imperative phrasing such as preserve, reduce, keep, do not change.
 - Mention that the uploaded image should be used as the reference image.
@@ -162,7 +162,7 @@ GPT:
 
     case "midjourney":
       return `
-Midjourney:
+Midjourney-style - experimental:
 - Use a compact descriptive prompt with strong visual keywords.
 - Prefer comma-separated visual descriptors.
 - Include cleanup ideas such as clean detail, reduced noise, refined background, natural texture, balanced contrast, and faithful composition.
@@ -173,7 +173,7 @@ Midjourney:
 
     case "nano_banana_pro":
       return `
-Nano Banana Pro:
+Nano Banana Pro - reference-image oriented:
 - Use a structured natural-language prompt for Gemini image generation or editing.
 - Explicitly say to use the uploaded image as the reference.
 - Clearly describe the goal, subject preservation, scene structure, style, cleanup intent, and constraints.
@@ -183,7 +183,7 @@ Nano Banana Pro:
 
     case "generic":
       return `
-Generic:
+Generic - broad compatibility:
 - Use a balanced prompt that can work in most image generation tools.
 - Avoid model-specific parameters.
 - Make the prompt clear, descriptive, and cleanup-focused.

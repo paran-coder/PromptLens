@@ -1,15 +1,15 @@
 const features = [
   {
-    title: "Prompt quality",
-    body: "프롬프트 길이와 정리 목적을 선택해 더 정확한 재생성 프롬프트를 만듭니다.",
+    title: "GPT-first",
+    body: "기본 목적은 GPT Images의 노이즈·과한 디테일을 줄이는 cleanup prompt 생성입니다.",
   },
   {
-    title: "Target-aware",
-    body: "GPT, Midjourney, Nano Banana Pro, Generic 중 선택한 대상에 맞춰 문법과 톤을 조정합니다.",
+    title: "Format templates",
+    body: "Nano Banana Pro, Midjourney-style, Generic은 직접 실행 지원이 아니라 붙여넣기용 프롬프트 형식 변환입니다.",
   },
   {
-    title: "Cleanup-focused",
-    body: "원본의 핵심은 유지하고 노이즈, 과한 질감, 산만한 배경, 불안정한 디테일을 줄입니다.",
+    title: "BYOK",
+    body: "본인의 OpenAI 또는 Claude API 키를 사용합니다. 서버 없이 브라우저에서 직접 호출합니다.",
   },
 ];
 

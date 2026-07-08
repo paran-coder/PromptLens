@@ -192,7 +192,7 @@ export default function App() {
         <section className="grid gap-10 py-8 lg:grid-cols-[1fr_420px] lg:items-center lg:py-16">
           <div>
             <div className="mb-5 inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100">
-              Image-to-cleanup-prompt builder · {APP_VERSION}
+              GPT Images cleanup prompt builder · {APP_VERSION}
             </div>
 
             <h1 className="max-w-4xl text-5xl font-black leading-[0.95] tracking-tight md:text-7xl">
