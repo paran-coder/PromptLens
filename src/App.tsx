@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Analytics } from "@vercel/analytics/react";
 import { ApiSettings } from "./components/ApiSettings";
 import { FeatureGrid } from "./components/FeatureGrid";
 import { ImageUploader } from "./components/ImageUploader";
@@ -327,6 +328,7 @@ export default function App() {
           PromptLens · Browser-based prompt refinement tool
         </footer>
       </div>
+      <Analytics />
     </main>
   );
 }
